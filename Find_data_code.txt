@@ -1,0 +1,26 @@
+Sub Finddata()
+    Dim F As Boolean
+    y = 2
+If Cells(2, 1) = "" Then '如果A2儲存格為空白
+    MsgBox "Please Entry The Data", , "Empty Data" '
+    Exit Sub
+Else
+    Do While Cells(y, 1) <> ""
+    
+        Cells(y, 2).Font.Color = 0
+        F = CreateObject("Scripting.FileSystemObject").FileExists("C:\file\" & Cells(y, 2).Value & ".pdf") '搜尋檔案是否存在
+        
+        If F = False Then
+            MsgBox "Not Found   " & Cells(y, 2) & ".pdf   Data, Make Sure The File Exists", , "Not Found   " & Cells(y, 2) & ".pdf "
+            Cells(y, 2).Font.Color = -16776961
+            Exit Sub
+        
+        End If
+    y = y + 1
+    Loop
+End If
+
+MsgBox "All Complete, Please Send The Email", , "Check OK"
+    
+End Sub
+
