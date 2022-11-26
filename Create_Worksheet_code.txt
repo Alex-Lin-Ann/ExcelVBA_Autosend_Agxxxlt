@@ -1,0 +1,38 @@
+Sub CreateWS()
+Dim i As Long
+Dim j As Long
+Dim ws As Worksheet
+Dim msgyn As String
+Dim d As Date
+
+msgyn = MsgBox("               這是今年1月年初嗎?,一年只能按一次.", vbYesNo, "請注意")
+If msgyn = vbYes Then
+    If Year(Range("G1")) - Year(Range("G2")) >= 1 Then
+        d = Range("G2").Value
+        Worksheets("SendMail").Move before:=Sheets(1)
+        For j = 2 To Worksheets.Count
+            Set ws = Worksheets(j)
+            
+            Worksheets("AT " & j - 1 & "月").Activate
+            Range("A3:D1002").ClearContents
+            Range("G3:H1002").ClearContents
+                If j > 10 Then
+                    Range("A3") = "AT" & Year(Range("I1")) & j - 1 & "001"
+                Else
+                    Range("A3") = "AT" & Year(Range("I1")) & "0" & j - 1 & "001"
+                End If
+            Range("A3").AutoFill Range("A3:A402")
+        Next j
+        Worksheets("SendMail").Activate
+        Range("G2") = DateValue(Range("G1"))
+    Else
+        MsgBox ("請於明年1月在更新"), vbCritical, "更新失敗"
+        Exit Sub
+    
+    End If
+
+Sheets(2).Select
+
+End If
+
+End Sub
