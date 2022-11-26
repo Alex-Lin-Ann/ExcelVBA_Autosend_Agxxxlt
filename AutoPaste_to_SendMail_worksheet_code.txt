@@ -1,0 +1,33 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+'自動貼上進口流水號和提單號碼
+If Target.Column = 4 Then
+    Worksheets("SendMail").Activate
+    Worksheets("SendMail").Range("A2:B1000").ClearContents
+    Worksheets("AT 1月").Activate
+    Range("C1:D1002").RemoveDuplicates Columns:=Array(1, 2), Header:=xlYes
+    
+    With Range("A1:H402").Borders '  Borders(框線)物件
+    .LineStyle = 1                         '   框線的式樣
+    .ColorIndex = 1  '   框線的顏色 1:黑 2:無 3:紅 4:淡綠 5:藍 6:黃 7:橘 8:天藍 9:紫 15:灰
+    .Weight = 2       '   框線的粗細 xlHairline = 1 (毫線(最細的框線))、xlThin = 2 (細線)、
+    End With
+    If Range("D" & Target.Row - 1).End(xlDown).Row = 65536 Then
+        Exit Sub
+    Else
+        Range("D" & Target.Row & ":D" & Range("D" & Target.Row - 1).End(xlDown).Row).Select
+        Selection.Copy
+        Worksheets("SendMail").Activate
+        Worksheets("SendMail").Range("B2").PasteSpecial Paste:=xlPasteValues
+        Worksheets("AT 1月").Activate
+        Range("A" & Target.Row & ":A" & Range("D" & Target.Row - 1).End(xlDown).Row).Select
+        Selection.Copy
+        Worksheets("SendMail").Activate
+        Worksheets("SendMail").Range("A2").PasteSpecial Paste:=xlPasteValues
+        Application.CutCopyMode = False
+        Worksheets("AT 1月").Activate
+        
+    End If
+    Range("D" & Target.Row).Select
+End If
+End Sub
+
