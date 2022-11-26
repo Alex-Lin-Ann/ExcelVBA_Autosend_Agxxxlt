@@ -1,0 +1,16 @@
+Sub SendMail()
+Dim msgyn As String
+'發送信件前最後確認
+If Cells(2, 1) = "" Then
+    MsgBox "Please Entry The Data", , "Empty Data"
+Else
+    msgyn = MsgBox("               Ready To Send Email?", vbYesNo, "Are You Ready?")
+    If msgyn = vbYes Then
+        '啟動表單Processing
+        Processing.Show
+    End If
+Exit Sub
+
+End If
+
+End Sub
